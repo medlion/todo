@@ -48,7 +48,7 @@
                     <ul class="list-group">
                     @foreach ($sideboard as $side)
                         <li class="list-group-item">{{$side->description}}
-                        <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#subconfirm">-</button>
+                        <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#subconfirm{{ $side->id }}">-</button>
                         </li>
                         @include('subconfirm')
                     @endforeach
@@ -58,8 +58,6 @@
             </div>
             @endif
         </div>
-
-
     </div>
 </div>
 @endsection
