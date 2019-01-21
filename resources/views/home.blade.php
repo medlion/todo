@@ -37,10 +37,10 @@
             <div class="card">
                 <div class="card-header">Dashboard</div>
                     <div class="card-body">
-                        <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#deleteconfirm">Delete Entry</button>
-                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modifymodal">Modify Entry</button>
-                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addcontributor">Add Contributor</button>
-                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addsubentry">Add Sub Entry</button>
+                        <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#deleteconfirm" title="Delete the selected To Do List entry">Delete Entry</button>
+                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modifymodal" title="Modify the content of the selected To Do List entry">Modify Entry</button>
+                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addcontributor" title="By specifying the primary email address, give another person access to this To Do List entry, along with it's subentries">Add Contributor</button>
+                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addsubentry" title="Add a subentry to the selected To Do List entry">Add Sub Entry</button>
                     @include('areyousure')
                     @include('modifything')
                     @include('addcontributor')

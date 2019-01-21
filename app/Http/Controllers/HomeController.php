@@ -11,6 +11,7 @@ use App\Jobs\addContributor;
 use App\Jobs\addSubEntry;
 use App\Thing;
 use App\Ownership;
+use App\User;
 
 class HomeController extends Controller
 {
@@ -71,7 +72,10 @@ class HomeController extends Controller
             }
             else if($data->has('owner'))
             {
-                addContributor::dispatch($data);
+                if (User::where('email', $data->owner) -> exists())
+                {
+                    addContributor::dispatch($data);
+                }
                 return redirect()->route('post', $data->id);
             }
             else
