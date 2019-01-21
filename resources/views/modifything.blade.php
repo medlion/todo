@@ -10,7 +10,7 @@
                 @csrf
                 <label for="name">To Do Entry</label>
                 <input type="text" class="form-control" name="description" value=" {{ $highdes }}"/>
-                <input type="hidden" value="{{ $highlight }}" name="id"/>
+                <input type="hidden" value="{{ $highlight }}" name="postid"/>
                 </div>
             <button type="submit" class="btn btn-primary">Update</button>
             </form>

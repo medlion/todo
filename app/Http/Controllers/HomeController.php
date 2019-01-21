@@ -35,13 +35,8 @@ class HomeController extends Controller
         $highlighted = -1;
         $highlighteddes = "";
         if ($request->session()->has('postid')) {
-            // Write validation
-
-            if (Ownership::where('thing', $request->session()->get('postid'))->where('user', Auth::User()->id)-> exists())
-            {
-                $highlighted = $request->session()->get('postid', -2);
-                $highlighteddes = Thing::find($highlighted)->description;
-            }
+            $highlighted = $request->session()->get('postid', -2);
+            $highlighteddes = Thing::find($highlighted)->description;
         }
 
 
@@ -54,37 +49,49 @@ class HomeController extends Controller
 
     }
 
-    public function customses(Request $request, $postid)
+    public function customses(Request $data, $postid)
     {
-        $request->session()->flash('postid', $postid);
-        return redirect()->route('home');
+        if (Ownership::where('thing', $postid)->where('user', Auth::User()->id)->exists())
+        {
+            $data->session()->flash('postid', $postid);
+            return redirect()->route('home', ['request' => $data]);
+        }
+        else return redirect()->route('home')->with('error','You have no permission for this page!');
+
     }
 
 
     public function create(Request $data)
     {
-        if($data->has('id'))
+        if($data->has('postid'))
         {
             if($data->has('description'))
             {
                 modifyEntry::dispatch($data);
-                return redirect()->route('post', $data->id);
+                return redirect()->route('home')->with('success','Entry Successfully Modified');
             }
             else if($data->has('owner'))
             {
                 if (User::where('email', $data->owner) -> exists())
                 {
-                    addContributor::dispatch($data);
+                    if (Ownership::where('thing', $data->postid) -> where('user', User::where('email', $data->owner)->first()->id) -> exists())
+                    {
+                        return redirect()->route('home')->with('error',$data->owner . 'is already a contributor to this entry');
+                    }
+                    else
+                    {
+                        addContributor::dispatch($data);
+                        return redirect()->route('home')->with('success',$data->owner . ' added as contributor on this entry');
+                    }
                 }
-                return redirect()->route('post', $data->id);
+                else return redirect()->route('home')->with('error',$data->owner . ' does not exist on this system');
             }
             else
             {
                 markCompleted::dispatch($data);
-                if(Thing::find($data->id)->parent > -1)
-                {
-                    return redirect()->route('post', Thing::find($data->id)->parent);
-                }
+                if(Thing::find($data->postid)->parent > -1)
+                    $data->session()->flash('postid', Thing::find($data->postid)->parent);
+                return redirect()->route('home')->with('success','Entry Removed');
             }
         }
         else 
@@ -92,11 +99,11 @@ class HomeController extends Controller
             if($data->has('parent'))
             {
                 addSubEntry::dispatch($data);
-                return redirect()->route('post', $data->parent); 
+                $data->session()->flash('postid', $data->parent);
             }
             else createNewEntry::dispatch($data);
+            return redirect()->route('home')->with('success','New Entry Successfully Added');
         }
-
         return redirect()->route('home');
     }
 }
