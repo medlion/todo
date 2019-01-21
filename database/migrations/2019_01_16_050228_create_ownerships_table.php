@@ -16,6 +16,7 @@ class CreateOwnershipsTable extends Migration
         Schema::create('ownerships', function (Blueprint $table) {
             $table->integer('thing');
             $table->integer('user');
+            $table->primary(['thing','user']);
         });
     }
 

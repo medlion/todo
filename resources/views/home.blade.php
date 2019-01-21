@@ -18,14 +18,16 @@
                     @if ($empty)
                         Nothing To Display
                     @else
+                    <div class="list-group">
                         @foreach ($things as $thing)
                             @if ($highlight == $thing->id)
-                                <a type="button" href="{{ route('home') }}/{{ $thing->id }}" class="btn btn-primary btn-block" >{{ $thing->description }}</a>
+                                <a href="{{ route('home') }}/{{ $thing->id }}" class="list-group-item" data-toggle="tooltip" title="{{ $thing->description }}">{{ $thing->description }}</a>
                             @else
-                                <a type="button" href="{{ route('home') }}/{{ $thing->id }}" class="btn btn-default btn-block" >{{ $thing->description }}</a>
+                                <a href="{{ route('home') }}/{{ $thing->id }}" class="list-group-item" data-toggle="tooltip" title="{{ $thing->description }}">{{ $thing->description }}</a>
                             @endif
                         @endforeach
                     @endif
+                    </div>
                 </div>
             </div>
         </div>
@@ -35,7 +37,22 @@
             <div class="card">
                 <div class="card-header">Dashboard</div>
                     <div class="card-body">
-                        <button type="button" class="btn btn-warning">Warning</button>
+                        <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#deleteconfirm">Delete Entry</button>
+                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modifymodal">Modify Entry</button>
+                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addcontributor">Add Contributor</button>
+                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addsubentry">Add Sub Entry</button>
+                    @include('areyousure')
+                    @include('modifything')
+                    @include('addcontributor')
+                    @include('addsubentry')
+                    <ul class="list-group">
+                    @foreach ($sideboard as $side)
+                        <li class="list-group-item">{{$side->description}}
+                        <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#subconfirm">-</button>
+                        </li>
+                        @include('subconfirm')
+                    @endforeach
+                    </ul>
                     </div>
                 </div>
             </div>
