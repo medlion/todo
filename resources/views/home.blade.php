@@ -21,7 +21,7 @@
                     <div class="list-group">
                         @foreach ($things as $thing)
                             @if ($highlight == $thing->id)
-                                <a href="{{ route('home') }}/{{ $thing->id }}" class="list-group-item" data-toggle="tooltip" title="{{ $thing->description }}">{{ $thing->description }}</a>
+                                <a href="{{ route('home') }}/{{ $thing->id }}" class="list-group-item active" data-toggle="tooltip" title="{{ $thing->description }}">{{ $thing->description }}</a>
                             @else
                                 <a href="{{ route('home') }}/{{ $thing->id }}" class="list-group-item" data-toggle="tooltip" title="{{ $thing->description }}">{{ $thing->description }}</a>
                             @endif

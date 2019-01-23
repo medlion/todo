@@ -101,8 +101,11 @@ class HomeController extends Controller
                 addSubEntry::dispatch($data);
                 $data->session()->flash('postid', $data->parent);
             }
-            else createNewEntry::dispatch($data);
-            return redirect()->route('home')->with('success','New Entry Successfully Added');
+            else if($data->has('description'))
+            {
+                createNewEntry::dispatch($data);
+                return redirect()->route('home')->with('success','New Entry Successfully Added');
+            }
         }
         return redirect()->route('home');
     }
